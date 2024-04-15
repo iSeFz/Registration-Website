@@ -31,9 +31,8 @@
             <div class="input-control">
                 <input type="date" id="birthdate" placeholder="Birth Date" name="birthdate">
                 <div class="error"></div>
-                <div>
-                    <button id="actors">Check Actors</button>
-                </div>
+                <button type="submit">Check Actors Born</button>
+                <script defer src="signup.js"></script>
             </div>
             <div class="input-control">
                 <input type="text" id="phone" placeholder="Phone" name="phone">
@@ -66,6 +65,10 @@
             <p>Already have an account? <a href="">Login</a></p>
         </form>
     </div>
+    <div class="actorscontainer">
+    <ul id="actors" ></ul>
+    </div>
+    
     <?php include 'footer.php'; ?>
 </body>
 

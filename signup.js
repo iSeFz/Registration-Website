@@ -156,3 +156,23 @@ form.addEventListener('submit', e => {
     e.preventDefault();
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch('API_Ops.php', {
+            method: 'POST',
+            body: new FormData(form)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const actorsList = document.getElementById('actors');
+            if (data.error) {
+                actorsList.innerHTML = `<li>${data.error}</li>`;
+            } else {
+                actorsList.innerHTML = data.map(name => `<li>${name}</li>`).join('');
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+});
