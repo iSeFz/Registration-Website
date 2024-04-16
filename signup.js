@@ -1,6 +1,6 @@
 const form = document.getElementById("form");
 const fullname = document.getElementById("fullname");
-const nname = document.getElementById("name");
+const username = document.getElementById("name");
 const birthdate = document.getElementById("birthdate");
 const phone = document.getElementById("phone");
 const address = document.getElementById("address");
@@ -10,6 +10,9 @@ const password = document.getElementById("password");
 const cpassword = document.getElementById("cpassword");
 const actors = document.getElementById("actors");
 const submitform = document.getElementById("submitform");
+
+var validfullname = false, validusername = false, validbirthdate = false, validphone = false,
+    validaddress = false, validemail = false, validphoto = false, validpass = false, validconfpass = false;
 
 const setErrorFor = (element, message) => {
     const inputControl = element.parentElement;
@@ -27,39 +30,36 @@ const setSuccessFor = element => {
     errorDisplay.innerText = '';
     inputControl.classList.add('success');
     inputControl.classList.remove('error');
-};
-
-const isEmail = email => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
 }
 
-const validateInputs = () => {
-    const fullnameValue = fullname.value.trim();
-    const birthdateValue = birthdate.value;
-    const phoneValue = phone.value.trim();
-    const addressValue = address.value.trim();
-    const photoValue = photo.value;
-    const nnameValue = nname.value.trim();
-    const emailValue = email.value.trim();
-    const passwordValue = password.value.trim();
-    const cpasswordValue = cpassword.value.trim();
-
-    var validfullname = false;
+// Methods to check if the input field values are valid
+function checkFullname(fullnameValue) {
     if (fullnameValue === "") {
         setErrorFor(fullname, "Full name cannot be blank");
     } 
-    else if (!fullnameValue.match(/^[a-zA-Z]+$/)) {
+    else if (!fullnameValue.match(/^[a-zA-Z ]+$/)) {
         setErrorFor(fullname, "Name must be characters only");
     }
     else if (fullnameValue.length < 4) {
-        setErrorFor(fullname, "Please enter your full name");
+        setErrorFor(fullname, "Full name must be at least 4 characters long");
     } else {
-            setSuccessFor(fullname);
-            validfullname = true;
+        setSuccessFor(fullname);
+        validfullname = true;
     }
+}
 
-    var validbirthdate = false;
+function checkUsername(usernameValue) {
+    if (usernameValue === "") {
+        setErrorFor(username, "Username cannot be blank");
+    } else if (usernameValue.length < 8) {
+        setErrorFor(username, "Username must be at least 8 characters long");
+    } else {
+        setSuccessFor(username);
+        validusername = true;
+    }
+}
+
+function checkBirthdate(birthdateValue) {
     if (birthdateValue === "") {
         setErrorFor(birthdate, "Birthdate cannot be blank");
     } else if (new Date().getFullYear() - new Date(birthdateValue).getFullYear() < 18) {
@@ -69,54 +69,29 @@ const validateInputs = () => {
         setSuccessFor(birthdate);
         validbirthdate = true;
     }
+}
 
-    var validphone = false;
+function checkPhone(phoneValue) {
     if (phoneValue === "") {
         setErrorFor(phone, "Phone number cannot be blank");
     } else if (phoneValue.length !== 11) {
         setErrorFor(phone, "Phone number must be 11 digits long");
     } else {
-            setSuccessFor(phone);
-            validphone = true;
+        setSuccessFor(phone);
+        validphone = true;
     }
+}
 
-    var validaddress = false;
+function checkAddress(addressValue) {
     if (addressValue === "") {
         setErrorFor(address, "Address cannot be blank");
     } else {
         setSuccessFor(address);
         validaddress = true;
     }
+}
 
-    var validphoto = false;
-    if (photoValue === "") {
-        setErrorFor(photo, "Please upload a photo");
-    } else {
-        setSuccessFor(photo);
-        validphoto = true;
-    }
-
-    var validnname = false;
-    if (nnameValue === "") {
-        setErrorFor(nname, "Username cannot be blank");
-    } else if (nnameValue.length !== 8) {
-        setErrorFor(nname, "Username must be 8 characters long");
-    } else {
-            setSuccessFor(nname);
-            validnname = true;
-    }
-
-    var validemail = false;
-    if (emailValue === "") {
-        setErrorFor(email, "Email cannot be blank");
-    } else if (!isEmail(emailValue)) {
-        setErrorFor(email, "Not a valid email");
-    } else {
-        setSuccessFor(email);
-        validemail = true;
-    }
-
-    var validpass = false;
+function checkPassword(passwordValue) {
     if (passwordValue === "") {
         setErrorFor(password, "Password cannot be blank");
     } else if (!passwordValue.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/)) {
@@ -125,8 +100,9 @@ const validateInputs = () => {
         setSuccessFor(password);
         validpass = true;
     }
+}
 
-    var validconfpass = false;
+function checkConfirmPassword(passwordValue, cpasswordValue) {
     if (cpasswordValue === "") {
         setErrorFor(cpassword, "Password cannot be blank");
     } else if (passwordValue !== cpasswordValue) {
@@ -135,27 +111,99 @@ const validateInputs = () => {
         setSuccessFor(cpassword);
         validconfpass = true;
     }
+}
 
-    if (validnname && validemail && validpass && validconfpass && validfullname && validbirthdate && validphone && validaddress && validphoto) {
+function checkPhoto(photoValue) {
+    if (photoValue === "") {
+        setErrorFor(photo, "Please upload a photo");
+    } else {
+        setSuccessFor(photo);
+        validphoto = true;
+    }
+}
+
+function checkEmail(emailValue) {
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailValue === "") {
+        setErrorFor(email, "Email cannot be blank");
+    } else if (!emailRegex.test(String(emailValue).toLowerCase())) {
+        setErrorFor(email, "Please enter a valid email");
+    } else {
+        setSuccessFor(email);
+        validemail = true;
+    }
+}
+
+// Event listeners to check every input field value at real time
+fullname.addEventListener('input', function () {
+    checkFullname(this.value.trim());
+})
+
+username.addEventListener('input', function () {
+    checkUsername(this.value.trim());
+})
+
+birthdate.addEventListener('input', function () {
+    checkBirthdate(this.value);
+})
+
+phone.addEventListener('input', function () {
+    checkPhone(this.value.trim());
+})
+
+address.addEventListener('input', function () {
+    checkAddress(this.value.trim());
+})
+
+photo.addEventListener('input', function () {
+    checkPhoto(this.value);
+})
+
+password.addEventListener('input', function () {
+    checkPassword(this.value.trim());
+})
+
+cpassword.addEventListener('input', function () {
+    checkConfirmPassword(password.value.trim(), this.value.trim());
+})
+
+email.addEventListener('input', function () {
+    checkEmail(this.value.trim());
+})
+
+// Make sure that all fields are filled correctly before submitting
+function validateForm() {
+    const fullnameValue = fullname.value.trim();
+    const usernameValue = username.value.trim();
+    const birthdateValue = birthdate.value;
+    const phoneValue = phone.value.trim();
+    const addressValue = address.value.trim();
+    const passwordValue = password.value.trim();
+    const cpasswordValue = cpassword.value.trim();
+    const photoValue = photo.value;
+    const emailValue = email.value.trim();
+    // Check all fields
+    if (!validfullname) checkFullname(fullnameValue);
+    if (!validusername) checkUsername(usernameValue);
+    if (!validbirthdate) checkBirthdate(birthdateValue);
+    if (!validphone) checkPhone(phoneValue);
+    if (!validaddress) checkAddress(addressValue);
+    if (!validphoto) checkPhoto(photoValue);
+    if (!validpass) checkPassword(passwordValue);
+    if (!validconfpass) checkConfirmPassword(passwordValue, cpasswordValue);
+    if (!validemail) checkEmail(emailValue);
+    if(validfullname && validusername && validbirthdate && validphone && validaddress && validpass && validconfpass && validphoto && validemail)
         return true;
-    }
-    return false;
-};
+    else return false;
+}
 
+// Event listener to check all input fields before submitting the form
 submitform.addEventListener('click', e => {
-    validateInputs();
-    if (validateInputs()) {
-        alert("Account created successfully!");
-    }
-    else {
-        e.preventDefault();
-    }
-});
+    if (validateForm()) alert("Account created successfully!");
+    else e.preventDefault();
+})
 
-form.addEventListener('submit', e => {
-    e.preventDefault();
-});
-
+// Event listener to fetch actors from the API
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
     form.addEventListener('submit', function(e) {
@@ -175,4 +223,4 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching data:', error));
     });
-});
+})
