@@ -11,9 +11,14 @@ function uploadImage(){
             $image = $_FILES["photo"]["tmp_name"];
             $data = file_get_contents($image);
             $name = $_FILES["photo"]["name"];
+            while(file_exists("photos/".$name)){
+                $imageName = getNameFromImageName($name);
+                $extension = getExtensionFromImageName($name);
+                $imageName++;
+                $name = $imageName.$extension;
+            }
             file_put_contents("photos/".$name, $data);
-            header('Location: '."./");
-            // updateDataBase($name);
+            //set name in database
         }
     }
     else
@@ -22,7 +27,28 @@ function uploadImage(){
     }
 }
 
-function updateDataBase($name){
+function getNameFromImageName($name){
+    $newName = "";
+    for($i= 0;$i<strlen($name);$i++){
+        if($name[$i]== "."){
+            break;
+        }
+        $newName .= $name[$i];
+    }
+    return $newName;
+}
 
+function getExtensionFromImageName($name){
+    $extension = "";
+    $found = false;
+    for($i= 0;$i<strlen($name);$i++){
+        if($name[$i] == '.'){
+            $found = true;
+        }
+        if($found){
+            $extension .= $name[$i];
+        }
+    }
+    return $extension;
 }
 ?>
