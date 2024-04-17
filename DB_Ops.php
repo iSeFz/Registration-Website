@@ -1,6 +1,6 @@
 <?php
 
-$conn = dbConnection("localhost","root", "","Registeration");
+$conn = dbConnection("localhost","root", "","Register");
 
 function dbConnection($servername, $username, $password, $database){
 
@@ -29,14 +29,13 @@ function createTable(){
     //DATE - format: YYYY-MM-DD
     $tableUser = "create table if not exists User(
         username varchar(40) primary key,
-        email varchar(40) ,
-        firstName varchar(20) ,
-        lastName varchar(20) ,
-        password varchar(40),
-        address varchar(40) ,
-        phone varchar(15),
+        email text ,
+        fullname text ,
+        password text,
+        address text ,
+        phone text,
         imageName varchar(40),
-        bithdate Date)" ;
+        birthdate Date)" ; 
 
         if(!mysqli_query($conn, $tableUser)) {
             echo "Error creating table: " . $conn->error."<br>";
@@ -44,25 +43,21 @@ function createTable(){
 }
 
 
-function insert($username, $email ,$firstName ,$lastName ,$password ,$address ,
-$phone, $imageName, $birthdate){
-    global $conn;
+    function insert($username, $email ,$fullname ,$password ,$address ,
+        $phone,$imageName, $birthdate ){ //add image to parameters
+            global $conn;
 
-    //the form alerts the user to choose another username
-    if(select("*","username = '$username' ")===true){
-        echo "<br>username can't be repeated"; //done later in front end 
-        return false;
-    }
-    else{
-        if(!mysqli_query($conn, "insert into User values('$username', '$email', '$firstName', 
-        '$lastName', '$password', '$address', '$phone', '$imageName', '$birthdate')") ){
             
-            echo $conn->error."<br>";
-            return false;
+            if(!mysqli_query($conn, "insert into User (username, email, fullname, password, address,
+            phone, imageName, birthdate) values ('$username', '$email', '$fullname'
+            , '$password', '$address', '$phone', '$imageName','$birthdate' )") ){//add image to parameters
+                
+                echo $conn->error."<br>k";
+                return false;
+            }
+            return true;
         }
-        return true;
-    }
-}
+
 
 
 
@@ -78,7 +73,7 @@ function select($selection, $condition=""){
 
     if (mysqli_num_rows($result) > 0) {
 
-        //printing query result
+        // printing query result
         while($row = mysqli_fetch_assoc($result)) {
             echo  "<br>"."username: " . $row["username"];
         }
@@ -92,9 +87,9 @@ function select($selection, $condition=""){
 }
 
 createTable();
-insert("usersr2w1", "user@email.com", "nour", "tarek", "1234", "faisal", "image.jpg", "01234567890", 
-"02-01-2003");
-// select("username");
+insert("ranatarek", "user@email.com", "nour", "tarek", "1234", "faisal",  "01234567890",
+"image.jpg", "02-01-2003");
+select("username");
 
 
 mysqli_close($conn);
