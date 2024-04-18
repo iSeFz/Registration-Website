@@ -18,7 +18,7 @@
 <body>
     <?php include 'header.php'; ?>
     <div class="form-container">
-        <form id="form" action="" method="post">
+        <form id="form" action="" method="post" enctype="multipart/form-data">
             <h3>Sign Up</h3>
             <div class="input-control">
                 <input type="text" id="fullname" placeholder="Full Name" name="fullname">

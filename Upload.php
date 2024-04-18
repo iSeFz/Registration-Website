@@ -1,5 +1,4 @@
 <?php
-uploadImage();
 function uploadImage(){
     if(isset($_POST['submit']))
     {
@@ -18,6 +17,7 @@ function uploadImage(){
                 $name = $imageName.$extension;
             }
             file_put_contents("photos/".$name, $data);
+            return $name;
             //set name in database
         }
     }

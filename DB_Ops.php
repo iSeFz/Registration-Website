@@ -44,7 +44,7 @@ function createTable(){
 }
 
     function insert($username, $email ,$fullname ,$password ,$address ,
-        $phone,$imageName, $birthdate ){ //add image to parameters
+        $phone,$imageName, $birthdate ){
             global $conn;
 
             if(isRepeated($username)===true){
@@ -54,7 +54,7 @@ function createTable(){
             else{
                 if(!mysqli_query($conn, "insert into User (username, email, fullname, password, address,
                 phone, imageName, birthdate) values ('$username', '$email', '$fullname'
-                , '$password', '$address', '$phone', '$imageName','$birthdate' )") ){//add image to parameters
+                , '$password', '$address', '$phone', '$imageName','$birthdate' )") ){
                     
                     echo $conn->error."<br>k";
                     return false;

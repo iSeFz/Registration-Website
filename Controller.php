@@ -1,5 +1,6 @@
 <?php
     include "DB_Ops.php";
+    include "Upload.php";
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['function']) && isset($_POST['params'])) {
         global $conn;
@@ -24,7 +25,7 @@
                 $_POST["password"],
                 $_POST["address"],
                 $_POST["phone"],
-                $_FILES["photo"]["name"],
+                uploadImage(),
                 $_POST["birthdate"]
             );
             // echo "Data inserted successfully"; // Optional success message
