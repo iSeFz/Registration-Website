@@ -1,6 +1,10 @@
 <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "REGISTERATION_FORM";
 
-$conn = dbConnection("localhost","root", "","Register");
+$conn = dbConnection($servername,$username, $password,$database);
 
 function dbConnection($servername, $username, $password, $database){
 
@@ -9,16 +13,13 @@ function dbConnection($servername, $username, $password, $database){
     mysqli_query($connection, $createDB); //excute the query
     mysqli_change_user($connection, $username, $password, $database);
 
-    
     // if connection failed
     if (!$connection) {
       die("Connection failed: " . mysqli_connect_error())."<br>";
     }
     else {
-        echo "Connected successfully";
-    }
-
-    
+        // echo "Connected successfully";
+    }    
     return $connection;
 }
 
@@ -42,19 +43,24 @@ function createTable(){
         } 
 }
 
-
     function insert($username, $email ,$fullname ,$password ,$address ,
         $phone,$imageName, $birthdate ){ //add image to parameters
             global $conn;
 
-            
-            if(!mysqli_query($conn, "insert into User (username, email, fullname, password, address,
-            phone, imageName, birthdate) values ('$username', '$email', '$fullname'
-            , '$password', '$address', '$phone', '$imageName','$birthdate' )") ){//add image to parameters
-                
-                echo $conn->error."<br>k";
+            if(isRepeated($username)===true){
+                echo "Username cant be repeated";
                 return false;
             }
+            else{
+                if(!mysqli_query($conn, "insert into User (username, email, fullname, password, address,
+                phone, imageName, birthdate) values ('$username', '$email', '$fullname'
+                , '$password', '$address', '$phone', '$imageName','$birthdate' )") ){//add image to parameters
+                    
+                    echo $conn->error."<br>k";
+                    return false;
+                }
+            }
+            
             return true;
         }
 
@@ -64,36 +70,39 @@ function createTable(){
 function select($selection, $condition=""){
     global $conn;
     $query = "Select $selection from User";
-    $result = mysqli_query($conn, $query);
     if($condition !=""){
         $query.=" where $condition";
     }
 
     // echo $query;
+    $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
 
         // printing query result
-        while($row = mysqli_fetch_assoc($result)) {
-            echo  "<br>"."username: " . $row["username"];
-        }
-        return true;
+
+        // while($row = mysqli_fetch_assoc($result)) {
+        //     echo  "<br>"."username: " . $row["username"];
+        // }
+        return 1;
     } 
     else {
-        // echo "<br> 0 results";
-        return false;
+        return 0;
     }
 
 }
+function isRepeated($name){
+    if(select("*","username = '$name'")===1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
 
+}
 createTable();
-insert("ranatarek", "user@email.com", "nour", "tarek", "1234", "faisal",  "01234567890",
-"image.jpg", "02-01-2003");
-select("username");
-
-
-mysqli_close($conn);
-
-
+// insert("ranatarek", "user@email.com", "nour", "tarek", "1234", "faisal",  "01234567890",
+// "image.jpg", "02-01-2003");
+// select("username");
 
 ?>

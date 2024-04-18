@@ -31,6 +31,49 @@ const setSuccessFor = element => {
     inputControl.classList.add('success');
     inputControl.classList.remove('error');
 }
+function inserDB() {
+    const formData = new FormData(form);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'Controller.php');
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            console.log(xhr.responseText); // Process response here
+            form.reset();
+        } else {
+            console.error('Request failed with status:', xhr.status);
+        }
+    };
+    xhr.send(formData);
+}
+
+
+function uniqueUsername(inpUsernme) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'Controller.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log(xhr.responseText +"ss"); // Process response
+                if(xhr.responseText == 1)
+                    setErrorFor(username, "Username already exists");
+                else
+                    setSuccessFor(username);
+            } 
+            else {
+                console.error('Request failed with status:', xhr.status);
+            }
+        }
+    };
+
+    var functionName = 'isRepeated';
+    var params = inpUsernme; // You can pass any parameters here
+
+    xhr.send('function=' + encodeURIComponent(functionName) +
+     '&params=' + encodeURIComponent(params));
+}
 
 // Methods to check if the input field values are valid
 function checkFullname(fullnameValue) {
@@ -54,7 +97,8 @@ function checkUsername(usernameValue) {
     } else if (usernameValue.length < 8) {
         setErrorFor(username, "Username must be at least 8 characters long");
     } else {
-        setSuccessFor(username);
+        uniqueUsername(usernameValue);
+        // setSuccessFor(username);
         validusername = true;
     }
 }
@@ -199,7 +243,10 @@ function validateForm() {
 
 // Event listener to check all input fields before submitting the form
 submitform.addEventListener('click', e => {
-    if (validateForm()) alert("Account created successfully!");
+    if (validateForm() ) {
+        inserDB();
+        alert("Account created successfully!");
+    }
     else e.preventDefault();
 })
 
