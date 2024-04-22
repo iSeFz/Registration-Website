@@ -36,7 +36,7 @@ function inserDB() {
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'Controller.php');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             console.log(xhr.responseText); // Process response here
             form.reset();
@@ -53,15 +53,17 @@ function uniqueUsername(inpUsernme) {
     xhr.open('POST', 'Controller.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status >= 200 && xhr.status < 300) {
-                console.log(xhr.responseText +"ss"); // Process response
-                if(xhr.responseText == 1){
-                    setErrorFor(username, "Username already exists"); validusername = false;}
-                else{
-                    setSuccessFor(username); validusername = true;}
-            } 
+                console.log(xhr.responseText + "ss"); // Process response
+                if (xhr.responseText == 1) {
+                    setErrorFor(username, "Username already exists"); validusername = false;
+                }
+                else {
+                    setSuccessFor(username); validusername = true;
+                }
+            }
             else {
                 console.error('Request failed with status:', xhr.status);
             }
@@ -72,14 +74,14 @@ function uniqueUsername(inpUsernme) {
     var params = inpUsernme; // You can pass any parameters here
 
     xhr.send('function=' + encodeURIComponent(functionName) +
-     '&params=' + encodeURIComponent(params));
+        '&params=' + encodeURIComponent(params));
 }
 
 // Methods to check if the input field values are valid
 function checkFullname(fullnameValue) {
     if (fullnameValue === "") {
         setErrorFor(fullname, "Full name cannot be blank");
-    } 
+    }
     else if (!fullnameValue.match(/^[a-zA-Z ]+$/)) {
         setErrorFor(fullname, "Name must be characters only");
     }
@@ -156,8 +158,16 @@ function checkConfirmPassword(passwordValue, cpasswordValue) {
 }
 
 function checkPhoto(photoValue) {
+    let extension = photoValue.substring(photoValue.lastIndexOf('.') + 1).toLowerCase();
+    console.log("extension: ", extension);
+    if (extension !== "jpg" && extension !== "jpeg" && extension !== "png") {
+        setErrorFor(photo, "Please upload a photo");
+        validphoto = false;
+        return;
+    }
     if (photoValue === "") {
         setErrorFor(photo, "Please upload a photo");
+        validphoto = false;
     } else {
         setSuccessFor(photo);
         validphoto = true;
@@ -234,14 +244,14 @@ function validateForm() {
     if (!validpass) checkPassword(passwordValue);
     if (!validconfpass) checkConfirmPassword(passwordValue, cpasswordValue);
     if (!validemail) checkEmail(emailValue);
-    if(validfullname && validusername && validbirthdate && validphone && validaddress && validpass && validconfpass && validphoto && validemail)
+    if (validfullname && validusername && validbirthdate && validphone && validaddress && validpass && validconfpass && validphoto && validemail)
         return true;
     else return false;
 }
 
 // Event listener to check all input fields before submitting the form
 submitform.addEventListener('click', e => {
-    if (validateForm() ) {
+    if (validateForm()) {
         inserDB();
         alert("Account created successfully!");
     }
@@ -249,23 +259,24 @@ submitform.addEventListener('click', e => {
 })
 
 // Event listener to fetch actors from the API
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
         fetch('API_Ops.php', {
             method: 'POST',
             body: new FormData(form)
         })
-        .then(response => response.json())
-        .then(data => {
-            const actorsList = document.getElementById('actors');
-            if (data.error) {
-                actorsList.innerHTML = `<li>${data.error}</li>`;
-            } else {
-                actorsList.innerHTML = data.map(name => `<li>${name}</li>`).join('');
-            }
-        })
-        .catch(error => console.error('Error fetching data:', error));
+            .then(response => response.text())
+            .then(data => {
+                console.log("data: ", data);
+                const actorsList = document.getElementById('actors');
+                if (data.error) {
+                    actorsList.innerHTML = `<li>${data.error}</li>`;
+                } else {
+                    actorsList.innerHTML = data.map(name => `<li>${name}</li>`).join('');
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
     });
 })
