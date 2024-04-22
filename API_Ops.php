@@ -11,11 +11,11 @@ function getActors() {
 
     $headers = [
 	    "X-RapidAPI-Host: online-movie-database.p.rapidapi.com",
-	    "X-RapidAPI-Key: 74d2ba16c3msha7e0fb70408062ap1f1973jsnb5070628d9f0"
+	    "X-RapidAPI-Key: 5312930fb6msh373f7f4db224e7fp153b2fjsne08450a70c07"
 	    ];
 
     $actorIds = fetchDataWithDelay($url, $headers);
-    $actorIds = array_slice($actorIds, 0, 10);
+    $actorIds = array_slice($actorIds, 0, 5);
     $names = array_map('getActorNameById', $actorIds);
 
     echo json_encode($names);
@@ -43,7 +43,7 @@ function getActorNameById($actorId) {
     $url = "https://online-movie-database.p.rapidapi.com/actors/get-bio?nconst={$actorId}";
     $headers = [
         "X-RapidAPI-Host: online-movie-database.p.rapidapi.com",
-	"X-RapidAPI-Key: 74d2ba16c3msha7e0fb70408062ap1f1973jsnb5070628d9f0"
+	"X-RapidAPI-Key: 5312930fb6msh373f7f4db224e7fp153b2fjsne08450a70c07"
     ];
 
     $ch = curl_init();

@@ -258,25 +258,23 @@ submitform.addEventListener('click', e => {
     else e.preventDefault();
 })
 
-// Event listener to fetch actors from the API
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
         fetch('API_Ops.php', {
             method: 'POST',
             body: new FormData(form)
         })
-            .then(response => response.text())
-            .then(data => {
-                console.log("data: ", data);
-                const actorsList = document.getElementById('actors');
-                if (data.error) {
-                    actorsList.innerHTML = `<li>${data.error}</li>`;
-                } else {
-                    actorsList.innerHTML = data.map(name => `<li>${name}</li>`).join('');
-                }
-            })
-            .catch(error => console.error('Error fetching data:', error));
+        .then(response => response.json())
+        .then(data => {
+            const actorsList = document.getElementById('actors');
+            if (data.error) {
+                actorsList.innerHTML = `<li>${data.error}</li>`;
+            } else {
+                actorsList.innerHTML = data.map(name => `<li>${name}</li>`).join('');
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
     });
-})
+});

@@ -82,7 +82,7 @@ function select($selection, $condition=""){
         // printing query result
 
         // while($row = mysqli_fetch_assoc($result)) {
-        //     echo  "<br>"."username: " . $row["username"];
+        //     echo  "<br>"."username: " . $row["imageName"];
         // }
         return 1;
     } 
@@ -103,6 +103,6 @@ function isRepeated($name){
 createTable();
 // insert("ranatarek", "user@email.com", "nour", "tarek", "1234", "faisal",  "01234567890",
 // "image.jpg", "02-01-2003");
-// select("username");
+// select("*");
 
 ?>
