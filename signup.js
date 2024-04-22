@@ -52,15 +52,15 @@ function uniqueUsername(inpUsernme) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'Controller.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    
+
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 console.log(xhr.responseText +"ss"); // Process response
-                if(xhr.responseText == 1)
-                    setErrorFor(username, "Username already exists");
-                else
-                    setSuccessFor(username);
+                if(xhr.responseText == 1){
+                    setErrorFor(username, "Username already exists"); validusername = false;}
+                else{
+                    setSuccessFor(username); validusername = true;}
             } 
             else {
                 console.error('Request failed with status:', xhr.status);
@@ -98,8 +98,6 @@ function checkUsername(usernameValue) {
         setErrorFor(username, "Username must be at least 8 characters long");
     } else {
         uniqueUsername(usernameValue);
-        // setSuccessFor(username);
-        validusername = true;
     }
 }
 
