@@ -253,7 +253,6 @@ function validateForm() {
 submitform.addEventListener('click', e => {
     if (validateForm()) {
         inserDB();
-        location.reload();
         alert("Account created successfully!");
     }
     else e.preventDefault();
