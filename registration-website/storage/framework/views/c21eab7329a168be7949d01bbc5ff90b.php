@@ -1,0 +1,2 @@
+<footer>&copy; 2024 FCAI Information Systems Department Students. All rights reserved.</footer>
+<?php /**PATH C:\Users\noure\OneDrive\Desktop\Laravel\registration-website\resources\views/footer.blade.php ENDPATH**/ ?>
