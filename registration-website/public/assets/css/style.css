@@ -1,0 +1,158 @@
+:root {
+  --green: #037272;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  /* text-transform: capitalize;  */
+  /*transition: 1s linear;*/
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  overflow-x: hidden;
+}
+
+footer, header {
+  background-color: #eee;
+  font-size: 1.8em;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+}
+
+.form-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.form-container form {
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.1);
+  background: #fff;
+  text-align: center;
+  width: 500px;
+}
+
+.form-container form h3 {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.form-container form input,
+.form-container form select,
+.form-container form button {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 17px;
+  margin: 8px 0;
+  background: #eee;
+  border-radius: 5px;
+  display: block;
+}
+
+.form-container form .form-btn {
+  background: #333;
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.form-container form .form-btn:hover {
+  background: var(--green);
+}
+
+.form-container form p,
+.form-container form label {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.form-container form p a {
+  color: var(--green);
+}
+
+.input-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-control input {
+  border: 2px solid #f0f0f0;
+  border-radius: 4px;
+  display: block;
+  font-size: 12px;
+  padding: 10px;
+  width: 100%;
+}
+
+.input-control input:focus {
+  outline: 0;
+}
+
+.input-control.success input {
+  border-color: #09c372;
+}
+
+.input-control.error input {
+  border-color: #ff3860;
+}
+
+.input-control .error {
+  color: #ff3860;
+  font-size: 9px;
+  height: 13px;
+}
+.actorscontainer {
+  position: absolute;
+  top: 200px;
+  right: 290px;
+  font-family: 'Arial', sans-serif;
+  font-size: 15px;
+  
+}
+.actorscontainer ul {
+  background-color: #eee;
+  min-width: 200px;
+  list-style: none;
+  border-radius: 10px;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.actorscontainer ul li {
+  padding: 10px;
+  text-align: center;
+  color: black;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.actorscontainer ul li:last-child {
+  border-bottom: none;
+}
+
+.actorscontainer ul li:hover {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  
+}
