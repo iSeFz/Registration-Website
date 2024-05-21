@@ -96,6 +96,8 @@ function checkFullname(fullnameValue) {
 function checkUsername(usernameValue) {
     if (usernameValue === "") {
         setErrorFor(username, "Username cannot be blank");
+    } else if (!usernameValue.match(/^[a-zA-Z]+$/)) {
+        setErrorFor(username, "Name must be characters only");
     } else if (usernameValue.length < 8) {
         setErrorFor(username, "Username must be at least 8 characters long");
     } else {
@@ -108,8 +110,9 @@ function checkBirthdate(birthdateValue) {
         setErrorFor(birthdate, "Birthdate cannot be blank");
     } else if (new Date().getFullYear() - new Date(birthdateValue).getFullYear() < 18) {
         setErrorFor(birthdate, "You must be at least 18 years old");
-    }
-    else {
+    } else if (new Date().getFullYear() - new Date(birthdateValue).getFullYear() > 60) {
+        setErrorFor(birthdate, "You must be at most 60 years old");
+    } else {
         setSuccessFor(birthdate);
         validbirthdate = true;
     }
